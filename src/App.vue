@@ -10,7 +10,7 @@ import StandardCalculator from './components/StandardCalculator.vue'
 import LogDashboard from './components/LogDashboard/index.vue'
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .calculator-app {
   height: 100vh;
   display: flex;
