@@ -32,6 +32,9 @@ function pressButton(button: Button) {
       expression.value[expression.value.length - 1] += button.value
       break
     case 'operator':
+      if (expression.value[0] === '') {
+        return
+      }
       if (expression.value.length === 3 && expression.value[2] === '') {
         operator = button.value
         expression.value[1] = button.label
