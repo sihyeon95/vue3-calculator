@@ -10,6 +10,7 @@
         :key="idx"
         v-html="button.label"
         @click="() => pressButton(button)"
+        :class="button.color"
       />
     </div>
   </section>
@@ -138,6 +139,25 @@ function calculate(firstOperand: number, operator: Operator, secondOperand: numb
     font-size: 24px;
     height: 100%;
     width: 100%;
+
+    &.white {
+      background-color: $w1;
+      background-color: darken($w1, 1%);
+    }
+    &.gray,
+    .numberManipulator {
+      background-color: $g2;
+      &:hover {
+        background-color: darken($g2, 1%);
+      }
+    }
+    &.blue {
+      background-color: $b1;
+      color: $b2;
+      &:hover {
+        background-color: lighten($b1, 1%);
+      }
+    }
   }
 }
 </style>

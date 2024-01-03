@@ -1,23 +1,27 @@
 export type Operator = 'plus' | 'minus' | 'divide' | 'times'
 export type NumberModifier = 'percent' | 'fraction' | 'square' | 'root' | 'sign' | 'point'
 export type Manipulator = 'clear' | 'clearEntry' | 'delete'
+type Color = 'white' | 'gray' | 'blue'
+type ButtonType = 'number' | 'operator' | 'numberModifier' | 'manipulator' | 'flush'
 
 export class Button {
   label: string
-  type: 'number' | 'operator' | 'numberModifier' | 'manipulator' | 'flush'
+  type: ButtonType
   value?: any
+  color: Color
 
-  constructor(label: string, type: 'number' | 'operator' | 'numberModifier' | 'manipulator' | 'flush') {
+  constructor(label: string, type: ButtonType, color: Color) {
     this.label = label
     this.type = type
+    this.color = color
   }
 }
 
 export class NumberButton extends Button {
   value: number
 
-  constructor(label: string, value: number) {
-    super(label, 'number')
+  constructor(label: string, value: number, color: Color) {
+    super(label, 'number', color)
     this.value = value
   }
 }
@@ -25,8 +29,8 @@ export class NumberButton extends Button {
 export class OperatorButton extends Button {
   value: Operator
 
-  constructor(label: string, value: Operator) {
-    super(label, 'operator')
+  constructor(label: string, value: Operator, color: Color) {
+    super(label, 'operator', color)
     this.value = value
   }
 }
@@ -34,8 +38,8 @@ export class OperatorButton extends Button {
 export class NumberModifierButton extends Button {
   value: NumberModifier
 
-  constructor(label: string, value: NumberModifier) {
-    super(label, 'numberModifier')
+  constructor(label: string, value: NumberModifier, color: Color) {
+    super(label, 'numberModifier', color)
     this.value = value
   }
 }
@@ -43,8 +47,8 @@ export class NumberModifierButton extends Button {
 export class ManipulatorButton extends Button {
   value: Manipulator
 
-  constructor(label: string, value: Manipulator) {
-    super(label, 'manipulator')
+  constructor(label: string, value: Manipulator, color: Color) {
+    super(label, 'manipulator', color)
     this.value = value
   }
 }
