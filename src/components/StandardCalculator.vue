@@ -1,15 +1,15 @@
 <template>
   <section class="calculator-view">
     <div class="calculator-expression">
-      <p class="expression">{{ expression }}</p>
-      <p class="statement">{{ statement }}</p>
+      <p class="expression" v-html="expression.join(' ').trim()" />
+      <p class="statement">{{ statement === '' ? 0 : statement }}</p>
     </div>
     <div class="button-wrapper">
       <button
-        v-for="({ label, type, value }, idx) in buttons"
+        v-for="(button, idx) in buttons"
         :key="idx"
-        v-html="label"
-        @click="() => pressButton(type, value)"
+        v-html="button.label"
+        @click="() => pressButton(button)"
       />
     </div>
   </section>
@@ -17,47 +17,85 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-interface Button {
-  label: string
-  type: 'number' | 'operator'
-  value?: number
+import { buttons } from '@/constant/Calculator'
+import type { Button, Operator, Manipulator } from '@/type/Button'
+
+const expression = ref<string[]>([''])
+const statement = ref<string>('')
+let result: number = 0
+let operator: Operator | null = null
+
+function pressButton(button: Button) {
+  switch (button.type) {
+    case 'number':
+      statement.value += button.value
+      expression.value[expression.value.length - 1] += button.value
+      break
+    case 'operator':
+      if (expression.value.length === 3 && expression.value[2] === '') {
+        operator = button.value
+        expression.value[1] = button.label
+        return
+      } else if (expression.value.length === 3) {
+        flush()
+      }
+      result = parseInt(statement.value)
+      operator = button.value
+      statement.value = ''
+      expression.value.push(button.label, '')
+      break
+    case 'numberModifier':
+      break
+    case 'manipulator':
+      manipulate(button.value)
+      break
+    case 'flush':
+      flush()
+      break
+  }
 }
 
-const expression = ref('')
-const statement = ref('0')
+function flush() {
+  if (operator === null || statement.value === '') {
+    return
+  }
+  result = calculate(result, operator, parseInt(statement.value))
+  statement.value = result.toString()
+  expression.value = [result.toString()]
+  operator = null
+}
 
-const buttons: Button[] = [
-  { label: '%', type: 'operator' },
-  { label: 'CE', type: 'operator' },
-  { label: 'C', type: 'operator' },
-  { label: '&#x232B;', type: 'operator' },
-  { label: '⅟x', type: 'operator' },
-  { label: 'x<sup>2</sup>', type: 'operator' },
-  {
-    label: '<sup>2</sup>&radic;<span style="text-decoration:overline;">&nbsp;x&nbsp;</span>',
-    type: 'operator'
-  },
-  { label: '&divide;', type: 'operator' },
-  { label: '7', type: 'number', value: 7 },
-  { label: '8', type: 'number', value: 8 },
-  { label: '9', type: 'number', value: 9 },
-  { label: '&times;', type: 'operator' },
-  { label: '4', type: 'number', value: 4 },
-  { label: '5', type: 'number', value: 5 },
-  { label: '6', type: 'number', value: 6 },
-  { label: '-', type: 'operator' },
-  { label: '1', type: 'number', value: 1 },
-  { label: '2', type: 'number', value: 2 },
-  { label: '3', type: 'number', value: 3 },
-  { label: '+', type: 'operator' },
-  { label: '&plusmn;', type: 'operator' },
-  { label: '0', type: 'number' },
-  { label: '.', type: 'number' },
-  { label: '=', type: 'operator' }
-]
+function manipulate(manipulator: Manipulator) {
+  switch (manipulator) {
+    case 'clear':
+      statement.value = ''
+      expression.value = ['']
+      operator = null
+      result = 0
+      break
+    case 'clearEntry':
+      statement.value = ''
+      expression.value.pop()
+      break
+    case 'delete':
+      statement.value = statement.value.slice(0, -1)
+      expression.value[expression.value.length - 1] = expression.value[
+        expression.value.length - 1
+      ].slice(0, -1)
+  }
+}
 
-function pressButton(type: 'number' | 'operator', value?: number) {
-  console.log(type, value)
+function calculate(firstOperand: number, operator: Operator, secondOperand: number) {
+  switch (operator) {
+    case 'plus':
+      return firstOperand + secondOperand
+    case 'minus':
+      return firstOperand - secondOperand
+    case 'divide':
+      return firstOperand / secondOperand
+    case 'times':
+      return firstOperand * secondOperand
+  }
 }
 </script>
 
