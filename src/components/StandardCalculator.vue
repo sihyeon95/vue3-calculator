@@ -103,11 +103,12 @@ function calculate(firstOperand: number, operator: Operator, secondOperand: numb
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .calculator-view {
   height: 100%;
   display: flex;
   flex-direction: column;
+  padding: 8px 12px;
 }
 
 .calculator-expression {
