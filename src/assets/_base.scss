@@ -1,0 +1,19 @@
+@use './color';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-size: 14px;
+  font-family: sans-serif;
+  background-color: color.$g1;
+}
+
+button {
+  cursor: pointer;
+}
