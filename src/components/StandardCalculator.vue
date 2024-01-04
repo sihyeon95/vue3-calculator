@@ -1,7 +1,7 @@
 <template>
   <section class="calculator-view">
     <div class="calculator-expression">
-      <p class="expression" v-html="expression.join(' ').trim()" />
+      <p class="expression" v-html="expressionFilter(expression)" />
       <p class="statement">{{ statement === '' ? 0 : statement }}</p>
     </div>
     <div class="button-wrapper">
@@ -20,6 +20,7 @@
 import { ref } from 'vue'
 import { buttons } from '@/constant/Calculator'
 import useHistory from '@/store/history'
+import {expressionFilter} from '@/util/StringFilter'
 import type { Button, Operator, Manipulator } from '@/type/Button'
 import type { Expression } from '@/type/Expression'
 
