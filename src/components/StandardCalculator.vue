@@ -20,8 +20,9 @@
 import { ref } from 'vue'
 import { buttons } from '@/constant/Calculator'
 import type { Button, Operator, Manipulator } from '@/type/Button'
+import type { Expression } from '@/type/Expression'
 
-const expression = ref<string[]>([''])
+const expression = ref<Expression>([''])
 const statement = ref<string>('')
 let result: number = 0
 let operator: Operator | null = null

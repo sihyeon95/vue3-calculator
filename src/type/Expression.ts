@@ -1,0 +1,1 @@
+export type Expression = [string] | [string, string, string];
