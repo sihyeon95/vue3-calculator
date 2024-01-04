@@ -129,7 +129,7 @@ function calculate(firstOperand: number, operator: Operator, secondOperand: numb
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 8px;
-  flex: 2;
+  flex: 4;
   button {
     text-align: center;
     padding: 18px 20px;

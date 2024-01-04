@@ -35,6 +35,9 @@ const tabState = ref('history')
 </script>
 
 <style lang="scss" scoped>
+.storage-view {
+  padding: 8px 12px;
+}
 .sidebar {
   padding: 20px;
 }
