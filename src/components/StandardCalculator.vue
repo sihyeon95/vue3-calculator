@@ -1,5 +1,6 @@
 <template>
   <section class="calculator-view">
+    <LeftNavigation :show="showNavigation" />
     <header class="header">
       <button
         class="menu-button"
@@ -12,7 +13,12 @@
             ;(target as Element).classList.add('menu-button-clicked')
           }
         "
-        @mouseup="releaseMenuButton"
+        @mouseup="
+          (e) => {
+            releaseMenuButton(e)
+            showNavigation = !showNavigation
+          }
+        "
         @mouseleave="releaseMenuButton"
         ref="menuButton"
       >
@@ -43,6 +49,9 @@ import useHistory from '@/store/history'
 import { expressionFilter } from '@/util/StringFilter'
 import type { Button, Operator, Manipulator } from '@/type/Button'
 import type { Expression } from '@/type/Expression'
+import LeftNavigation from './LeftNavigation.vue'
+
+const showNavigation = ref(false)
 
 //TODO: statement 입력 동작 디테일 맞추기
 const expression = ref<Expression>([''])
@@ -162,6 +171,8 @@ function releaseMenuButton(e: MouseEvent) {
     height: 24px;
     box-sizing: content-box;
     border-radius: 8px;
+    position: relative;
+    z-index: 3;
 
     &:hover {
       background-color: $g3;
@@ -190,7 +201,6 @@ function releaseMenuButton(e: MouseEvent) {
         border: solid 1px black;
       }
     }
-    
 
     &.menu-button-clicked > .line {
       transform: scaleX(0.5);
