@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="history-log">
-    <p v-if="historys.length === 0">아직 기록이 없음</p>
+    <p v-if="historys.length === 0" style="text-align: left;">아직 기록이 없음</p>
     <TransitionGroup v-else name="slide">
       <div class="historys" v-for="(history, index) in historys" :key="index">
         <p
