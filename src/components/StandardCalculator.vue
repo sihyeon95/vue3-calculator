@@ -1,9 +1,9 @@
 <template>
   <section class="calculator-view">
-    <LeftNavigation :show="showNavigation" />
+    <LeftNavigation :show="showNavigation" @close-navigation="showNavigation = false" />
     <header class="header">
       <button
-        class="menu-button"
+        class="menu-button excepct-outside-click"
         @mousedown="
           (e) => {
             const { target } = e

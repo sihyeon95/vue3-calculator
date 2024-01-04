@@ -1,7 +1,7 @@
 <template>
   <teleport to="body">
     <transition name="slide">
-      <section class="navigation" v-show="show">
+      <section class="navigation" v-show="show" v-click-outside="() => emits('closeNavigation')">
         <div class="menus">
           <div class="navigation-group" v-for="{ title, items } in menus" :key="title">
             <h2>{{ title }}</h2>
@@ -31,6 +31,7 @@ const menus = [
 
 const selectedMenu = ref('표준')
 defineProps<{ show: boolean }>()
+const emits = defineEmits(['closeNavigation'])
 </script>
 
 <style scoped lang="scss">
@@ -43,7 +44,7 @@ defineProps<{ show: boolean }>()
   background-color: #f8f9fa;
   padding: 70px 0px 0px;
   box-sizing: border-box;
-  box-shadow: 0px 5px 15px rgba(0,0,0,0.3);
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
 
   &-group {
     &:not(:last-child) {
@@ -98,15 +99,15 @@ defineProps<{ show: boolean }>()
   }
 
   hr {
-	opacity: 0.2;
-	margin: 12px 0;
+    opacity: 0.2;
+    margin: 12px 0;
   }
 
   .setting {
     @extend .menu-item;
     border: none;
     text-align: left;
-	margin-bottom: 12px;
+    margin-bottom: 12px;
   }
 }
 
