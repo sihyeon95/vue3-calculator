@@ -12,7 +12,11 @@ const useHistoryStore = defineStore('history', () => {
     historys.value.push({ expression, result })
   }
 
-  return {historys, pushHistory}
+  function removeAllHistory() {
+    historys.value.splice(0, historys.value.length)
+  }
+
+  return {historys, pushHistory, removeAllHistory}
 })
 
 export default useHistoryStore

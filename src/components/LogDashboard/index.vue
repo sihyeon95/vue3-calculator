@@ -24,20 +24,21 @@
         <memory-log v-if="tabState === 'memory'" class="content-item" />
       </Transition>
     </div>
-    <button class="delete-button">
+    <button class="delete-button" v-if="showDeleteButton" @click="removeAllHistory">
       <img src="/icon/delete-icon.png" alt="delete" />
     </button>
   </section>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import HistoryLog from './HistoryLog.vue'
 import MemoryLog from './MemoryLog.vue'
 import useHistory from '@/store/history'
 
-const { historys } = useHistory()
+const { historys, removeAllHistory } = useHistory()
 const tabState = ref('history')
+const showDeleteButton = computed(() => tabState.value === 'history' && historys.length > 0)
 </script>
 
 <style lang="scss" scoped>
