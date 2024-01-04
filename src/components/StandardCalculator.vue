@@ -19,6 +19,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { buttons } from '@/constant/Calculator'
+import useHistory from '@/store/history'
 import type { Button, Operator, Manipulator } from '@/type/Button'
 import type { Expression } from '@/type/Expression'
 
@@ -26,6 +27,7 @@ const expression = ref<Expression>([''])
 const statement = ref<string>('')
 let result: number = 0
 let operator: Operator | null = null
+const {pushHistory} = useHistory()
 
 function pressButton(button: Button) {
   switch (button.type) {
@@ -66,6 +68,7 @@ function flush() {
     return
   }
   result = calculate(result, operator, parseInt(statement.value))
+  pushHistory(expression.value, result);
   statement.value = result.toString()
   expression.value = [result.toString()]
   operator = null
