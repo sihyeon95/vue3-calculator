@@ -47,15 +47,16 @@ import { ref } from 'vue'
 import { buttons } from '@/constant/Calculator'
 import useHistory from '@/store/history'
 import { expressionFilter } from '@/util/StringFilter'
-import type { Button, Operator, Manipulator } from '@/type/Button'
-import type { Expression } from '@/type/Expression'
+import type { Button, Operator, Manipulator, NumberModifier } from '@/type/Button'
+import Statement from '@/type/Statement'
 import LeftNavigation from './LeftNavigation.vue'
+import { stat } from 'fs'
 
 const showNavigation = ref(false)
 
 //TODO: statement 입력 동작 디테일 맞추기
-const expression = ref<Expression>([''])
-const statement = ref<string>('')
+const expression = ref<(Statement | string)[]>([new Statement()])
+const statement = ref<Statement>(new Statement())
 let result: number = 0
 let operator: Operator | null = null
 const { pushHistory } = useHistory()
@@ -63,8 +64,8 @@ const { pushHistory } = useHistory()
 function pressButton(button: Button) {
   switch (button.type) {
     case 'number':
-      statement.value += button.value
-      expression.value[expression.value.length - 1] += button.value
+      statement.value.addDigit(button.value);
+      expression.value[expression.value.length - 1] = statement.value
       break
     case 'operator':
       if (expression.value[0] === '') {
@@ -77,13 +78,13 @@ function pressButton(button: Button) {
       } else if (expression.value.length === 3) {
         flush()
       }
-      result = parseInt(statement.value)
+      result = Number(statement.value)
       operator = button.value
-      statement.value = ''
-      expression.value.push(button.label, '')
+      statement.value = new Statement()
+      expression.value.push(button.label, statement.value)
       break
     case 'numberModifier':
-      // exclude function
+      modifyNumber(button.value)
       break
     case 'manipulator':
       manipulate(button.value)
@@ -98,30 +99,50 @@ function flush() {
   if (operator === null || statement.value === '') {
     return
   }
-  result = calculate(result, operator, parseInt(statement.value))
+  result = calculate(result, operator, Number(statement.value))
   pushHistory(expression.value, result)
   statement.value = result === 0 ? '' : result.toString()
   expression.value = [result === 0 ? '' : result.toString()]
   operator = null
 }
 
+function modifyNumber(modifier: NumberModifier) {
+  switch (modifier) {
+    case 'sign':
+      statement.value.toggleSign();
+    case 'percent':
+      if (operator === null) {
+        return
+      }
+      if(statement.value.integer === '') {
+        statement.value = (expression.value[0] as Statement).deepCopy();
+      }
+      statement.value.convertPercentage();
+      expression.value[expression.value.length - 1] = statement.value
+    case 'point':
+      statement.value.setDecimalMode();
+      expression.value[expression.value.length - 1] = statement.value
+    default:
+      return
+  }
+}
+
 function manipulate(manipulator: Manipulator) {
   switch (manipulator) {
     case 'clear':
-      statement.value = ''
-      expression.value = ['']
+      statement.value = new Statement()
+      expression.value = [new Statement()]
       operator = null
       result = 0
       break
     case 'clearEntry':
-      statement.value = ''
+      statement.value = new Statement()
       expression.value.pop()
+      expression.value.push(statement.value)
       break
     case 'delete':
-      statement.value = statement.value.slice(0, -1)
-      expression.value[expression.value.length - 1] = expression.value[
-        expression.value.length - 1
-      ].slice(0, -1)
+      statement.value.removeDigit()
+      expression.value[expression.value.length - 1] = statement.value
   }
 }
 
