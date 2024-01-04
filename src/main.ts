@@ -6,7 +6,6 @@ const app = createApp(App)
 app.directive('click-outside', {
 	mounted(el, binding) {
 	  el.clickOutsideEvent = function(event: MouseEvent) {
-		console.log(el, event.target)
 		if (!(el === event.target || el.contains(event.target) || (event.target as HTMLElement).classList.contains('excepct-outside-click'))) {
 		  binding.value(event);
 		}
