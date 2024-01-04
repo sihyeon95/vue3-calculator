@@ -18,7 +18,7 @@
     </div>
     <div class="content">
       <Transition name="slide-left" mode="out-in">
-        <history-log :historys="[]" v-if="tabState === 'history'" class="content-item" />
+        <history-log :historys="historys" v-if="tabState === 'history'" class="content-item" />
       </Transition>
       <Transition name="slide-right" mode="in-out">
         <memory-log v-if="tabState === 'memory'" class="content-item" />
@@ -31,6 +31,9 @@
 import { ref } from 'vue'
 import HistoryLog from './HistoryLog.vue'
 import MemoryLog from './MemoryLog.vue'
+import useHistory from '@/store/history'
+
+const {historys} = useHistory()
 const tabState = ref('history')
 </script>
 
