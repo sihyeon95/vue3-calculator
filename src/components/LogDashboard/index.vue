@@ -24,6 +24,9 @@
         <memory-log v-if="tabState === 'memory'" class="content-item" />
       </Transition>
     </div>
+    <button class="delete-button">
+      <img src="/icon/delete-icon.png" alt="delete" />
+    </button>
   </section>
 </template>
 
@@ -33,13 +36,27 @@ import HistoryLog from './HistoryLog.vue'
 import MemoryLog from './MemoryLog.vue'
 import useHistory from '@/store/history'
 
-const {historys} = useHistory()
+const { historys } = useHistory()
 const tabState = ref('history')
 </script>
 
 <style lang="scss" scoped>
 .storage-view {
   padding: 8px 12px;
+  position: relative;
+
+  .delete-button {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    &:hover {
+      background-color: $g3;
+    }
+  }
 }
 .sidebar {
   padding: 20px;
