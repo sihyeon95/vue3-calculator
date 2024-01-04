@@ -49,13 +49,27 @@ const showDeleteButton = computed(() => tabState.value === 'history' && historys
   .delete-button {
     position: absolute;
     bottom: 20px;
-    right: 20px;
+    right: 35px;
     padding: 10px;
     border-radius: 8px;
     border: none;
     cursor: pointer;
     &:hover {
       background-color: $g3;
+      &::before {
+        content: '모든 기록 지우기';
+        white-space: nowrap;
+        position: absolute;
+        top: -40px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 12px;
+        background-color:  $g1;
+        box-shadow: 0px 5px 15px rgba(0,0,0,0.3);
+        padding: 5px;
+        border-radius: 4px;
+        animation: 1s 1 alternate fade ease-out; // delay 추가
+      }
     }
   }
 }
