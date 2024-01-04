@@ -3,12 +3,28 @@
     <transition name="slide">
       <section class="navigation" v-show="show" v-click-outside="() => emits('closeNavigation')">
         <div class="menus">
-          <div class="navigation-group" v-for="{ title, items } in menus" :key="title">
-            <h2>{{ title }}</h2>
+          <div class="menu-group">
+            <h2>계산기</h2>
             <ul>
-              <li :class="{ active: item === selectedMenu }" v-for="item in items" :key="item">
-                {{ item }}
-              </li>
+              <li class="active">표준</li>
+              <li>공학용</li>
+              <li>그래프</li>
+              <li>프로그래머</li>
+              <li>날짜 게산</li>
+            </ul>
+          </div>
+          <div class="menu-group">
+            <h2>변환기</h2>
+            <ul>
+              <li>통화 환율</li>
+              <li>부피</li>
+              <li>길이</li>
+              <li>무게 및 질량</li>
+              <li>온도</li>
+              <li>에너지</li>
+              <li>면적</li>
+              <li>속도</li>
+              <li>시간</li>
             </ul>
           </div>
         </div>
@@ -20,17 +36,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-//TODO: 직관적으로 변경하기
-const menus = [
-  { title: '계산기', items: ['표준', '공학용', '그래프', '프로그래머', '날짜 계산'] },
-  {
-    title: '변환기',
-    items: ['통화 환율', '부피', '길이', '무게 및 질량', '온도', '에너지', '면적', '속도', '시간']
-  }
-]
 
-const selectedMenu = ref('표준')
 defineProps<{ show: boolean }>()
 const emits = defineEmits(['closeNavigation'])
 </script>
@@ -47,7 +53,7 @@ const emits = defineEmits(['closeNavigation'])
   box-sizing: border-box;
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
 
-  &-group {
+  .menu-group {
     &:not(:last-child) {
       margin-bottom: 24px;
     }
