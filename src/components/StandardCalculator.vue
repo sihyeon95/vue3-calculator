@@ -50,6 +50,7 @@ function pressButton(button: Button) {
       expression.value.push(button.label, '')
       break
     case 'numberModifier':
+      // exclude function
       break
     case 'manipulator':
       manipulate(button.value)
