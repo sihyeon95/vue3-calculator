@@ -1,7 +1,7 @@
 <template>
   <section class="calculator-view">
     <div class="calculator-expression">
-      <p class="expression" v-html="expressionFilter(expression)" />
+      <p class="expression text-g4" v-html="expressionFilter(expression)" />
       <p class="statement">{{ statement === '' ? 0 : statement }}</p>
     </div>
     <div class="button-wrapper">
@@ -70,8 +70,8 @@ function flush() {
   }
   result = calculate(result, operator, parseInt(statement.value))
   pushHistory(expression.value, result);
-  statement.value = result.toString()
-  expression.value = [result.toString()]
+  statement.value = result === 0 ? '' : result.toString()
+  expression.value = [result === 0 ? '' : result.toString()]
   operator = null
 }
 
