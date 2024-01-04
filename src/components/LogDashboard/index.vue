@@ -43,7 +43,7 @@ const showDeleteButton = computed(() => tabState.value === 'history' && historys
 
 <style lang="scss" scoped>
 .storage-view {
-  padding: 8px 12px;
+  padding: 8px 30px 0px 12px;
   position: relative;
 
   .delete-button {

@@ -1,7 +1,7 @@
 <template>
   <main class="calculator-app">
-    <standard-calculator style="flex: 2" />
-    <log-dashboard style="flex: 1" />
+    <standard-calculator style="flex: 5" />
+    <log-dashboard style="flex: 2" />
   </main>
 </template>
 

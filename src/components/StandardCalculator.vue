@@ -214,7 +214,7 @@ function releaseMenuButton(e: MouseEvent) {
   margin-bottom: 16px;
   flex: 1;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   flex-direction: column;
   .statement {
     font-size: 72px;
@@ -226,7 +226,7 @@ function releaseMenuButton(e: MouseEvent) {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 8px;
-  flex: 4;
+  flex: 5;
   button {
     text-align: center;
     padding: 18px 20px;

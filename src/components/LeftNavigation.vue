@@ -21,6 +21,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+//TODO: 직관적으로 변경하기
 const menus = [
   { title: '계산기', items: ['표준', '공학용', '그래프', '프로그래머', '날짜 계산'] },
   {
