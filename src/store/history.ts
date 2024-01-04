@@ -1,25 +1,18 @@
-import type { Expression } from '@/type/Expression'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import type { Expression } from '@/type/Expression'
+import type { History } from '@/type/Log'
 
-class History {
-  expression: Expression
-  result: number
 
-  constructor(expression: Expression, result: number) {
-    this.expression = expression
-    this.result = result
-  }
-}
 
 const useHistoryStore = defineStore('history', () => {
-  const history = ref<History[]>([])
+  const historys = ref<History[]>([])
 
   function pushHistory(expression: Expression, result: number) {
-    history.value.push({ expression, result })
+    historys.value.push({ expression, result })
   }
 
-  return {history, pushHistory}
+  return {historys, pushHistory}
 })
 
 export default useHistoryStore
