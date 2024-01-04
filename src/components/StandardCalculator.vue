@@ -1,5 +1,25 @@
 <template>
   <section class="calculator-view">
+    <header class="header">
+      <button
+        class="menu-button"
+        @mousedown="
+          (e) => {
+            const { target } = e
+            if (target === null) {
+              return
+            }
+            ;(target as Element).classList.add('menu-button-clicked')
+          }
+        "
+        @mouseup="releaseMenuButton"
+        @mouseleave="releaseMenuButton"
+        ref="menuButton"
+      >
+        <div class="line"></div>
+      </button>
+      <h1 class="text-bold">표준</h1>
+    </header>
     <div class="calculator-expression">
       <p class="expression text-g4" v-html="expressionFilter(expression)" />
       <p class="statement">{{ statement === '' ? 0 : statement }}</p>
@@ -20,15 +40,16 @@
 import { ref } from 'vue'
 import { buttons } from '@/constant/Calculator'
 import useHistory from '@/store/history'
-import {expressionFilter} from '@/util/StringFilter'
+import { expressionFilter } from '@/util/StringFilter'
 import type { Button, Operator, Manipulator } from '@/type/Button'
 import type { Expression } from '@/type/Expression'
 
+//TODO: statement 입력 동작 디테일 맞추기
 const expression = ref<Expression>([''])
 const statement = ref<string>('')
 let result: number = 0
 let operator: Operator | null = null
-const {pushHistory} = useHistory()
+const { pushHistory } = useHistory()
 
 function pressButton(button: Button) {
   switch (button.type) {
@@ -69,7 +90,7 @@ function flush() {
     return
   }
   result = calculate(result, operator, parseInt(statement.value))
-  pushHistory(expression.value, result);
+  pushHistory(expression.value, result)
   statement.value = result === 0 ? '' : result.toString()
   expression.value = [result === 0 ? '' : result.toString()]
   operator = null
@@ -107,6 +128,15 @@ function calculate(firstOperand: number, operator: Operator, secondOperand: numb
       return firstOperand * secondOperand
   }
 }
+
+function releaseMenuButton(e: MouseEvent) {
+  const { target } = e
+  if (target === null) {
+    return
+  }
+
+  ;(target as Element).classList.remove('menu-button-clicked')
+}
 </script>
 
 <style lang="scss" scoped>
@@ -115,6 +145,57 @@ function calculate(firstOperand: number, operator: Operator, secondOperand: numb
   display: flex;
   flex-direction: column;
   padding: 8px 12px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+
+  *:not(:last-child) {
+    margin-right: 16px;
+  }
+
+  .menu-button {
+    border: none;
+    padding: 10px;
+    width: 24px;
+    height: 24px;
+    box-sizing: content-box;
+    border-radius: 8px;
+
+    &:hover {
+      background-color: $g3;
+    }
+    .line {
+      width: 100%;
+      height: 2px;
+      border: solid 1px black;
+      position: relative;
+      &:before {
+        content: '';
+        position: absolute;
+        top: -7px;
+        left: -1px;
+        width: calc(100% + 2px);
+        height: 2px;
+        border: solid 1px black;
+      }
+      &::after {
+        content: '';
+        position: absolute;
+        top: 5px;
+        left: -1px;
+        width: calc(100% + 2px);
+        height: 2px;
+        border: solid 1px black;
+      }
+    }
+    
+
+    &.menu-button-clicked > .line {
+      transform: scaleX(0.5);
+    }
+  }
 }
 
 .calculator-expression {
