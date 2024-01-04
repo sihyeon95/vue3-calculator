@@ -1,0 +1,13 @@
+@use './color';
+
+.text-w1 { color: color.$w1; }
+.text-g1 { color: color.$g1; }
+.text-g2 { color: color.$g2; }
+.text-g3 { color: color.$g3; }
+.text-g4 { color: color.$g4; }
+.text-b1 { color: color.$b1; }
+.text-b2 { color: color.$b2; }
+
+.text-bold {
+	font-weight: bold;
+}
